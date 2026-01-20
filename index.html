@@ -13,6 +13,7 @@
         body{
             background-color: #333;
             color: white;
+            user-select: none;
         }
 
         h1{
@@ -28,9 +29,7 @@
             height: 350px;
             text-align: center;
             margin: 100px auto 20px auto;
-
         }
-
 
         input{
             width: 212.5px;
@@ -54,7 +53,6 @@
             font-size: large ;
             transition-duration: 0.4s;
         }
-
         
         button:hover{
             background-color: black;
@@ -63,11 +61,23 @@
 
         p{
             padding-top: 10px;
-            margin-left: 45px;
+            margin-left: 142px;
             text-transform: capitalize;
             text-align: left;
         }
 
+        span{
+            color: aqua;
+        }
+
+        #btn{
+            background-color: aqua;
+        }
+
+        #btn:hover{
+            background-color: black;
+            color: aqua;
+        }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -76,9 +86,9 @@
 
 
 <body>
-    <h1>A Simple Calculator V1</h1>
+    <h1>A Simple Calculator  <span>Version 1</span></h1>
     <div>
-        <p>Version 1</p>
+        <p>V1</p>
         <input type="text" id="input">
         <br>
         <button onclick="show(1)">1</button>
@@ -99,37 +109,46 @@
         <button onclick="show(9)">0</button>
         <button onclick="show('+')">+</button>
         <button onclick="clr()">C</button>
-        <button onclick="total()">=</button>
+        <button onclick="total()" id="btn">=</button>
         <br>
     </div>
 
     <script>
+        // Load the click sound
+        const clickSound = new Audio("click.mp3");
+
+        // Play sound function
+        function playSound() {
+            clickSound.currentTime = 0; // restart the sound if clicked fast
+            clickSound.play();
+        }
+
         function show(x){
+            playSound(); // play sound
             document.getElementById("input").value += x;
         }
 
         function clr(){
-            document.getElementById("input").value= ""; 
+            playSound(); // play sound
+            document.getElementById("input").value = ""; 
         }
 
+        function total(){
+            playSound(); // play sound
+            try{
+                let result = eval(document.getElementById("input").value);
+                document.getElementById("input").value = result ;
+            } catch {
+                document.getElementById("input").value = "Wrong Values!"
+            }
+        }
 
         let input = document.getElementById("input");
-        input.addEventListener("keydown",function(e){
+        input.addEventListener("keydown", function(e){
             if(e.key === "Enter"){
                 total();
             }
-        }
-        )
-
-        function total(){
-            try{
-            let result = eval(document.getElementById("input").value);
-            document.getElementById("input").value = result ;
-        }catch{
-            document.getElementById("input").value = "Wrong Values!"
-        }
-        }
-        
+        });
     </script>
 
 </body>
